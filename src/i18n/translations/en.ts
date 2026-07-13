@@ -8,10 +8,11 @@ export const en: Translation = {
     about: 'About',
     skills: 'Skills',
     projects: 'Projects',
+    contact: 'Contact',
   },
   hero: {
     eyebrow: 'AI Engineering Student',
-    name: 'İbrahim',
+    name: 'İbrahim ENEZ',
     tagline:
       "Studying AI Engineering at Trabzon University. I build small, working things with Python and Flutter.",
     githubCta: 'GitHub',
@@ -25,10 +26,11 @@ export const en: Translation = {
   },
   skills: {
     heading: 'Skills',
-    items: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Flutter & Dart', 'Git', 'SQL (basics)'],
+    items: ['GitHub'],
   },
   projects: {
     heading: 'Projects',
+    comingSoon: 'More projects are on the way — check back soon.',
     items: [
       {
         title: 'Tetris × 2048',

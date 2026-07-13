@@ -6,6 +6,7 @@ export interface Translation {
     about: string
     skills: string
     projects: string
+    contact: string
   }
   hero: {
     eyebrow: string
@@ -25,6 +26,7 @@ export interface Translation {
   }
   projects: {
     heading: string
+    comingSoon: string
     items: {
       title: string
       tag: string

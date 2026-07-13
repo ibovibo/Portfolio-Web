@@ -1,39 +1,109 @@
+import { useEffect, useState } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
+
+const SECTION_IDS = ['about', 'projects', 'skills', 'contact']
+const TRIGGER_RATIO = 0.55
+const SHOW_TRIGGER_DEBUG = true
 
 export default function Nav() {
   const { lang, t, toggleLang } = useLanguage()
+  const [activeId, setActiveId] = useState('')
+  const [triggerY, setTriggerY] = useState(0)
+
+  useEffect(() => {
+    const targets = SECTION_IDS.map((id) => {
+      const section = document.getElementById(id)
+      if (!section) return null
+      const heading = section.querySelector('h2')
+      return { id, el: (heading ?? section) as HTMLElement }
+    }).filter((target): target is { id: string; el: HTMLElement } => target !== null)
+
+    const handleScroll = () => {
+      const trigger = window.innerHeight * TRIGGER_RATIO
+      setTriggerY(trigger)
+      let current = ''
+      for (const { id, el } of targets) {
+        if (el.getBoundingClientRect().top <= trigger) {
+          current = id
+        }
+      }
+      setActiveId(current)
+    }
+
+    handleScroll()
+    const raf = requestAnimationFrame(handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleScroll)
+    window.addEventListener('load', handleScroll)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
+      window.removeEventListener('load', handleScroll)
+    }
+  }, [])
+
+  const linkClass = (id: string) =>
+    `rounded-full transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${
+      activeId === id ? 'text-accent font-semibold' : 'text-muted hover:text-ink'
+    }`
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-5 sm:px-10">
-      <a
-        href="#top"
-        className="font-semibold tracking-tight text-ink hover:text-accent transition-colors"
-      >
-        İbrahim
-      </a>
-
-      <nav className="flex items-center gap-6 text-sm">
-        <a href="#about" className="hidden sm:inline text-muted hover:text-ink transition-colors">
+    <header className="fixed inset-x-0 top-6 z-50 flex items-center justify-center px-6">
+      <nav className="hidden items-center gap-10 rounded-full bg-black/50 px-8 py-4 text-base shadow-lg shadow-black/40 backdrop-blur-xl sm:flex">
+        <a href="#about" className={linkClass('about')}>
           {t.nav.about}
         </a>
-        <a href="#skills" className="hidden sm:inline text-muted hover:text-ink transition-colors">
-          {t.nav.skills}
-        </a>
-        <a href="#projects" className="hidden sm:inline text-muted hover:text-ink transition-colors">
+        <a href="#projects" className={linkClass('projects')}>
           {t.nav.projects}
         </a>
-
-        <button
-          type="button"
-          onClick={toggleLang}
-          aria-label="Toggle language"
-          className="flex items-center gap-1 rounded-full border border-line px-3 py-1.5 text-xs font-medium text-muted hover:border-accent hover:text-accent transition-colors"
-        >
-          <span className={lang === 'en' ? 'text-ink font-semibold' : ''}>EN</span>
-          <span className="text-line">/</span>
-          <span className={lang === 'tr' ? 'text-ink font-semibold' : ''}>TR</span>
-        </button>
+        <a href="#skills" className={linkClass('skills')}>
+          {t.nav.skills}
+        </a>
+        <a href="#contact" className={linkClass('contact')}>
+          {t.nav.contact}
+        </a>
       </nav>
+
+      <button
+        type="button"
+        onClick={toggleLang}
+        aria-label="Toggle language"
+        className="group fixed right-6 top-6 z-50 flex items-center gap-1.5 rounded-full bg-black/50 px-4 py-2 text-sm font-medium shadow-lg shadow-black/40 backdrop-blur-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      >
+        <span
+          className={
+            lang === 'en'
+              ? 'text-accent font-semibold'
+              : 'text-muted transition-colors duration-300 group-hover:text-ink'
+          }
+        >
+          EN
+        </span>
+        <span className="text-line">/</span>
+        <span
+          className={
+            lang === 'tr'
+              ? 'text-accent font-semibold'
+              : 'text-muted transition-colors duration-300 group-hover:text-ink'
+          }
+        >
+          TR
+        </span>
+      </button>
+
+      {SHOW_TRIGGER_DEBUG && (
+        <div
+          className="pointer-events-none fixed inset-x-0 z-[9999] flex items-center gap-2 px-2"
+          style={{ top: triggerY }}
+        >
+          <span className="h-px flex-1 bg-red-500" />
+          <span className="rounded bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+            trigger {Math.round(triggerY)}px
+          </span>
+          <span className="h-px flex-1 bg-red-500" />
+        </div>
+      )}
     </header>
   )
 }

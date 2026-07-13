@@ -8,10 +8,11 @@ export const tr: Translation = {
     about: 'Hakkımda',
     skills: 'Yetenekler',
     projects: 'Projeler',
+    contact: 'İletişim',
   },
   hero: {
     eyebrow: 'Yapay Zeka Mühendisliği Öğrencisi',
-    name: 'İbrahim',
+    name: 'İbrahim ENEZ',
     tagline:
       'Trabzon Üniversitesi\'nde Yapay Zeka Mühendisliği okuyorum. Python ve Flutter ile küçük ama çalışan şeyler geliştiriyorum.',
     githubCta: 'GitHub',
@@ -25,10 +26,11 @@ export const tr: Translation = {
   },
   skills: {
     heading: 'Yetenekler',
-    items: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Flutter & Dart', 'Git', 'SQL (temel)'],
+    items: ['GitHub'],
   },
   projects: {
     heading: 'Projeler',
+    comingSoon: 'Daha fazla proje yakında burada olacak.',
     items: [
       {
         title: 'Tetris × 2048',

@@ -1,11 +1,18 @@
+import { lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '../i18n/LanguageContext'
+
+const SkillLogo3D = lazy(() => import('./SkillLogo3D'))
+
+const SKILL_LOGOS: Record<string, string> = {
+  GitHub: '/assets/github.glb',
+}
 
 export default function Skills() {
   const { t } = useLanguage()
 
   return (
-    <section id="skills" className="mx-auto max-w-3xl px-6 py-24 sm:py-32">
+    <section id="skills" className="mx-auto max-w-3xl scroll-mt-28 px-6 py-32 sm:py-48">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -16,16 +23,30 @@ export default function Skills() {
           {t.skills.heading}
         </h2>
 
-        <ul className="mt-6 flex flex-wrap gap-3">
-          {t.skills.items.map((skill) => (
-            <li
-              key={skill}
-              className="rounded-full border border-line bg-white/5 px-4 py-2 text-sm text-ink backdrop-blur-sm transition-colors hover:border-accent hover:text-accent"
-            >
-              {skill}
-            </li>
-          ))}
-        </ul>
+        <div className="mt-6 flex flex-wrap gap-6">
+          {t.skills.items.map((skill) => {
+            const logoPath = SKILL_LOGOS[skill]
+            return (
+              <div key={skill} className="h-64 w-64">
+                {logoPath ? (
+                  <Suspense
+                    fallback={
+                      <div className="flex h-full w-full items-center justify-center rounded-full bg-accent-soft text-lg font-semibold text-accent">
+                        {skill.charAt(0)}
+                      </div>
+                    }
+                  >
+                    <SkillLogo3D path={logoPath} label={skill} />
+                  </Suspense>
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center rounded-full bg-accent-soft text-lg font-semibold text-accent">
+                    {skill.charAt(0)}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
       </motion.div>
     </section>
   )

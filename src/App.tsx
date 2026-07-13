@@ -15,8 +15,8 @@ function App() {
       <main>
         <Hero />
         <About />
-        <Skills />
         <Projects />
+        <Skills />
       </main>
       <Footer />
     </LanguageProvider>

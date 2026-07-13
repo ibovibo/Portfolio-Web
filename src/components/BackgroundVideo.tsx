@@ -12,7 +12,7 @@ export default function BackgroundVideo() {
       >
         <source src="/assets/bg-video.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-black/20" />
+      <div className="absolute inset-0 bg-black/30" />
     </div>
   )
 }

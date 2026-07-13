@@ -6,6 +6,17 @@ const SkillLogo3D = lazy(() => import('./SkillLogo3D'))
 
 const SKILL_LOGOS: Record<string, string> = {
   GitHub: '/assets/github.glb',
+  Git: '/assets/gitlogo.glb',
+  Python: '/assets/pythonlogo.glb',
+  SQL: '/assets/sqllogo.glb',
+  Pandas: '/assets/pandaslogo.glb',
+  NumPy: '/assets/numpylogo.glb',
+}
+
+const SKILL_DISC_COLORS: Record<string, string> = {
+  Git: '#000000',
+  Python: '#000000',
+  Pandas: '#000000',
 }
 
 export default function Skills() {
@@ -36,7 +47,11 @@ export default function Skills() {
                       </div>
                     }
                   >
-                    <SkillLogo3D path={logoPath} label={skill} />
+                    <SkillLogo3D
+                      path={logoPath}
+                      label={skill}
+                      discColor={SKILL_DISC_COLORS[skill]}
+                    />
                   </Suspense>
                 ) : (
                   <div className="flex h-full w-full items-center justify-center rounded-full bg-accent-soft text-lg font-semibold text-accent">

@@ -15,16 +15,16 @@ const REDUCED_MOTION =
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-const DISC_WHITE = new Color('#ffffff')
 const DISC_GREEN = new Color('#16a34a')
 const SPIN_DURATION = 1.4
 
-function Model({ path }: { path: string }) {
+function Model({ path, discColor }: { path: string; discColor: string }) {
   const { scene } = useGLTF(path)
   const ref = useRef<Group>(null)
   const discMaterialRef = useRef<MeshBasicMaterial>(null)
   const spin = useRef({ active: false, startTime: 0, startY: 0 })
   const elapsed = useRef(0)
+  const discBaseColor = useMemo(() => new Color(discColor), [discColor])
 
   const disc = useMemo(() => {
     scene.updateMatrixWorld(true)
@@ -74,7 +74,7 @@ function Model({ path }: { path: string }) {
     ref.current.scale.setScalar(newScale)
 
     if (discMaterialRef.current) {
-      discMaterialRef.current.color.lerp(spinning ? DISC_GREEN : DISC_WHITE, delta * 8)
+      discMaterialRef.current.color.lerp(spinning ? DISC_GREEN : discBaseColor, delta * 8)
     }
   })
 
@@ -84,7 +84,7 @@ function Model({ path }: { path: string }) {
         <circleGeometry args={[disc.radius, 64]} />
         <meshBasicMaterial
           ref={discMaterialRef}
-          color="white"
+          color={discColor}
           side={DoubleSide}
           depthTest={false}
           depthWrite={false}
@@ -110,7 +110,15 @@ class ModelErrorBoundary extends Component<
   }
 }
 
-export default function SkillLogo3D({ path, label }: { path: string; label: string }) {
+export default function SkillLogo3D({
+  path,
+  label,
+  discColor = '#ffffff',
+}: {
+  path: string
+  label: string
+  discColor?: string
+}) {
   const fallback = (
     <div className="flex h-full w-full items-center justify-center rounded-full bg-accent-soft text-lg font-semibold text-accent">
       {label.charAt(0)}
@@ -124,7 +132,7 @@ export default function SkillLogo3D({ path, label }: { path: string; label: stri
           <ambientLight intensity={1.4} />
           <directionalLight position={[3, 3, 3]} intensity={1.2} />
           <Bounds fit margin={1.3}>
-            <Model path={path} />
+            <Model path={path} discColor={discColor} />
           </Bounds>
         </Canvas>
       </Suspense>

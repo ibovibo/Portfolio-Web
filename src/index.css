@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@import "@fontsource/space-grotesk/500.css";
+@import "@fontsource/space-grotesk/600.css";
+@import "@fontsource/space-grotesk/700.css";
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #0a0f0c;
+  --color-ink: #f3f6f3;
+  --color-muted: #9fb0a6;
+  --color-line: #253029;
+  --color-accent: #16a34a;
+  --color-accent-soft: #10241a;
+  --color-accent-dim: #1f4a34;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}

@@ -26,7 +26,7 @@ export const en: Translation = {
   },
   skills: {
     heading: 'Skills',
-    items: ['GitHub', 'Git', 'Python', 'SQL', 'Pandas', 'NumPy'],
+    items: ['Git', 'GitHub', 'Python', 'SQL', 'Pandas', 'NumPy'],
   },
   projects: {
     heading: 'Projects',

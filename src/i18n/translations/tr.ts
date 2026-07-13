@@ -26,7 +26,7 @@ export const tr: Translation = {
   },
   skills: {
     heading: 'Yetenekler',
-    items: ['GitHub', 'Git', 'Python', 'SQL', 'Pandas', 'NumPy'],
+    items: ['Git', 'GitHub', 'Python', 'SQL', 'Pandas', 'NumPy'],
   },
   projects: {
     heading: 'Projeler',

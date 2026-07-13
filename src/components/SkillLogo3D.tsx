@@ -26,9 +26,10 @@ function Model({ path }: { path: string }) {
     return { radius, x: center.x || 0, y: center.y || 0, z }
   }, [scene])
 
-  useFrame((_, delta) => {
+  useFrame((state) => {
     if (ref.current && !REDUCED_MOTION) {
-      ref.current.rotation.y += delta * 0.4
+      const maxAngle = Math.PI / 6 // 30 degrees
+      ref.current.rotation.y = maxAngle * Math.sin(state.clock.elapsedTime * 0.7)
     }
   })
 

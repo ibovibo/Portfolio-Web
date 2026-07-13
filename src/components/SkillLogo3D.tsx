@@ -1,7 +1,7 @@
-import { Component, Suspense, useRef, type ReactNode } from 'react'
+import { Component, Suspense, useMemo, useRef, type ReactNode } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Bounds, useGLTF } from '@react-three/drei'
-import type { Group } from 'three'
+import { Box3, DoubleSide, Vector3, type Group } from 'three'
 
 const REDUCED_MOTION =
   typeof window !== 'undefined' &&
@@ -11,13 +11,36 @@ function Model({ path }: { path: string }) {
   const { scene } = useGLTF(path)
   const ref = useRef<Group>(null)
 
+  const disc = useMemo(() => {
+    scene.updateMatrixWorld(true)
+    const box = new Box3().setFromObject(scene)
+    const size = new Vector3()
+    const center = new Vector3()
+    box.getSize(size)
+    box.getCenter(center)
+
+    const measured = (Math.max(size.x, size.y) / 2) * 1.5
+    const radius = Number.isFinite(measured) && measured > 0 ? measured : 1
+    const z = Number.isFinite(box.min.z) ? box.min.z : 0
+
+    return { radius, x: center.x || 0, y: center.y || 0, z }
+  }, [scene])
+
   useFrame((_, delta) => {
     if (ref.current && !REDUCED_MOTION) {
       ref.current.rotation.y += delta * 0.4
     }
   })
 
-  return <primitive ref={ref} object={scene} />
+  return (
+    <group ref={ref}>
+      <mesh position={[disc.x, disc.y, disc.z]} renderOrder={-1}>
+        <circleGeometry args={[disc.radius, 64]} />
+        <meshBasicMaterial color="white" side={DoubleSide} depthTest={false} depthWrite={false} />
+      </mesh>
+      <primitive object={scene} />
+    </group>
+  )
 }
 
 class ModelErrorBoundary extends Component<
@@ -48,7 +71,7 @@ export default function SkillLogo3D({ path, label }: { path: string; label: stri
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }} gl={{ antialias: true, alpha: true }}>
           <ambientLight intensity={1.4} />
           <directionalLight position={[3, 3, 3]} intensity={1.2} />
-          <Bounds fit clip margin={1.3}>
+          <Bounds fit margin={1.3}>
             <Model path={path} />
           </Bounds>
         </Canvas>

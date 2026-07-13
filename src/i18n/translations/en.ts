@@ -22,7 +22,7 @@ export const en: Translation = {
   about: {
     heading: 'About',
     body:
-      "I'm an AI Engineering student at Trabzon University, mostly working with Python for data and machine learning basics, and Flutter for small apps. I like understanding how something works end to end — from a messy dataset to a working interface — and I'm still early in that process.",
+      "AI Engineering student focused on Python and data science. I build things end-to-end — from data analysis scripts to mobile apps and small automation tools. I'm also interested in visual design and keep working on improving that side of my projects too.",
   },
   skills: {
     heading: 'Skills',

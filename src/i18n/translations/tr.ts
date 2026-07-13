@@ -22,7 +22,7 @@ export const tr: Translation = {
   about: {
     heading: 'Hakkımda',
     body:
-      "Trabzon Üniversitesi'nde Yapay Zeka Mühendisliği okuyorum. Çoğunlukla veri ve makine öğrenmesinin temelleri için Python, küçük uygulamalar için Flutter kullanıyorum. Bir şeyin uçtan uca nasıl çalıştığını anlamayı seviyorum — dağınık bir veri setinden çalışan bir arayüze kadar — ve bu süreçte hâlâ yeni sayılırım.",
+      'Yapay Zeka Mühendisliği öğrencisiyim, Python ve veri bilimi üzerine çalışıyorum. Veri analizi scriptlerinden mobil uygulamalara, küçük otomasyon araçlarına kadar uçtan uca projeler üretiyorum. Görsellik ve tasarım tarafıyla da ilgileniyorum, bu konuda kendimi sürekli geliştiriyorum.',
   },
   skills: {
     heading: 'Yetenekler',

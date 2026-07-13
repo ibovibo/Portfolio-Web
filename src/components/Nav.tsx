@@ -69,26 +69,28 @@ export default function Nav() {
         type="button"
         onClick={toggleLang}
         aria-label="Toggle language"
-        className="group fixed right-6 top-6 z-50 flex items-center gap-1.5 rounded-full bg-black/50 px-4 py-2 text-sm font-medium shadow-lg shadow-black/40 backdrop-blur-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        aria-pressed={lang === 'tr'}
+        className="fixed right-6 top-6 z-50 h-10 w-24 rounded-full bg-black/50 p-1 shadow-lg shadow-black/40 backdrop-blur-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
         <span
-          className={
-            lang === 'en'
-              ? 'text-accent font-semibold'
-              : 'text-muted transition-colors duration-300 group-hover:text-ink'
-          }
-        >
-          EN
-        </span>
-        <span className="text-line">/</span>
-        <span
-          className={
-            lang === 'tr'
-              ? 'text-accent font-semibold'
-              : 'text-muted transition-colors duration-300 group-hover:text-ink'
-          }
-        >
-          TR
+          className="absolute left-1 top-1 h-8 w-11 rounded-full bg-accent transition-transform duration-300 ease-out"
+          style={{ transform: lang === 'tr' ? 'translateX(100%)' : 'translateX(0%)' }}
+        />
+        <span className="relative z-10 grid h-full w-full grid-cols-2 text-xs font-semibold">
+          <span
+            className={`flex items-center justify-center transition-colors duration-300 ${
+              lang === 'en' ? 'text-paper' : 'text-muted'
+            }`}
+          >
+            EN
+          </span>
+          <span
+            className={`flex items-center justify-center transition-colors duration-300 ${
+              lang === 'tr' ? 'text-paper' : 'text-muted'
+            }`}
+          >
+            TR
+          </span>
         </span>
       </button>
 

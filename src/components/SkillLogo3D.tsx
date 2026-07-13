@@ -1,4 +1,4 @@
-import { Component, Suspense, useMemo, useRef, type ReactNode } from 'react'
+import { Component, Suspense, useEffect, useMemo, useRef, type ReactNode } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Bounds, useGLTF } from '@react-three/drei'
 import {
@@ -18,7 +18,15 @@ const REDUCED_MOTION =
 const DISC_GREEN = new Color('#16a34a')
 const SPIN_DURATION = 1.4
 
-function Model({ path, discColor }: { path: string; discColor: string }) {
+function Model({
+  path,
+  discColor,
+  spinTrigger,
+}: {
+  path: string
+  discColor: string
+  spinTrigger?: number
+}) {
   const { scene } = useGLTF(path)
   const ref = useRef<Group>(null)
   const discMaterialRef = useRef<MeshBasicMaterial>(null)
@@ -41,10 +49,15 @@ function Model({ path, discColor }: { path: string; discColor: string }) {
     return { radius, x: center.x || 0, y: center.y || 0, z }
   }, [scene])
 
-  const handlePointerOver = () => {
+  const startSpin = () => {
     if (!ref.current || REDUCED_MOTION) return
     spin.current = { active: true, startTime: elapsed.current, startY: ref.current.rotation.y }
   }
+
+  useEffect(() => {
+    if (spinTrigger) startSpin()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spinTrigger])
 
   useFrame((state, delta) => {
     elapsed.current = state.clock.elapsedTime
@@ -79,7 +92,7 @@ function Model({ path, discColor }: { path: string; discColor: string }) {
   })
 
   return (
-    <group ref={ref} onPointerOver={handlePointerOver}>
+    <group ref={ref} onPointerOver={startSpin}>
       <mesh position={[disc.x, disc.y, disc.z]} renderOrder={-1}>
         <circleGeometry args={[disc.radius, 64]} />
         <meshBasicMaterial
@@ -114,10 +127,12 @@ export default function SkillLogo3D({
   path,
   label,
   discColor = '#ffffff',
+  spinTrigger,
 }: {
   path: string
   label: string
   discColor?: string
+  spinTrigger?: number
 }) {
   const fallback = (
     <div className="flex h-full w-full items-center justify-center rounded-full bg-accent-soft text-lg font-semibold text-accent">
@@ -132,7 +147,7 @@ export default function SkillLogo3D({
           <ambientLight intensity={1.4} />
           <directionalLight position={[3, 3, 3]} intensity={1.2} />
           <Bounds fit margin={1.3}>
-            <Model path={path} discColor={discColor} />
+            <Model path={path} discColor={discColor} spinTrigger={spinTrigger} />
           </Bounds>
         </Canvas>
       </Suspense>

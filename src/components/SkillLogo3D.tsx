@@ -1,15 +1,30 @@
 import { Component, Suspense, useMemo, useRef, type ReactNode } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Bounds, useGLTF } from '@react-three/drei'
-import { Box3, DoubleSide, Vector3, type Group } from 'three'
+import {
+  Box3,
+  Color,
+  DoubleSide,
+  MathUtils,
+  Vector3,
+  type Group,
+  type MeshBasicMaterial,
+} from 'three'
 
 const REDUCED_MOTION =
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+const DISC_WHITE = new Color('#ffffff')
+const DISC_GREEN = new Color('#16a34a')
+const SPIN_DURATION = 1.4
+
 function Model({ path }: { path: string }) {
   const { scene } = useGLTF(path)
   const ref = useRef<Group>(null)
+  const discMaterialRef = useRef<MeshBasicMaterial>(null)
+  const spin = useRef({ active: false, startTime: 0, startY: 0 })
+  const elapsed = useRef(0)
 
   const disc = useMemo(() => {
     scene.updateMatrixWorld(true)
@@ -26,18 +41,54 @@ function Model({ path }: { path: string }) {
     return { radius, x: center.x || 0, y: center.y || 0, z }
   }, [scene])
 
-  useFrame((state) => {
-    if (ref.current && !REDUCED_MOTION) {
-      const maxAngle = Math.PI / 6 // 30 degrees
-      ref.current.rotation.y = maxAngle * Math.sin(state.clock.elapsedTime * 0.7)
+  const handlePointerOver = () => {
+    if (!ref.current || REDUCED_MOTION) return
+    spin.current = { active: true, startTime: elapsed.current, startY: ref.current.rotation.y }
+  }
+
+  useFrame((state, delta) => {
+    elapsed.current = state.clock.elapsedTime
+    if (!ref.current) return
+
+    const t = spin.current.active
+      ? (elapsed.current - spin.current.startTime) / SPIN_DURATION
+      : 1
+    const spinning = spin.current.active && t < 1
+
+    if (spinning) {
+      const clamped = Math.min(t, 1)
+      const eased =
+        clamped < 0.5 ? 4 * clamped ** 3 : 1 - (-2 * clamped + 2) ** 3 / 2
+      ref.current.rotation.y = spin.current.startY + eased * Math.PI * 4
+    } else {
+      spin.current.active = false
+      if (!REDUCED_MOTION) {
+        const maxAngle = Math.PI / 6 // 30 degrees
+        const target = maxAngle * Math.sin(elapsed.current * 0.7)
+        ref.current.rotation.y = MathUtils.lerp(ref.current.rotation.y, target, delta * 3)
+      }
+    }
+
+    const targetScale = spinning ? 0.5 : 1
+    const newScale = MathUtils.lerp(ref.current.scale.x, targetScale, delta * 8)
+    ref.current.scale.setScalar(newScale)
+
+    if (discMaterialRef.current) {
+      discMaterialRef.current.color.lerp(spinning ? DISC_GREEN : DISC_WHITE, delta * 8)
     }
   })
 
   return (
-    <group ref={ref}>
+    <group ref={ref} onPointerOver={handlePointerOver}>
       <mesh position={[disc.x, disc.y, disc.z]} renderOrder={-1}>
         <circleGeometry args={[disc.radius, 64]} />
-        <meshBasicMaterial color="white" side={DoubleSide} depthTest={false} depthWrite={false} />
+        <meshBasicMaterial
+          ref={discMaterialRef}
+          color="white"
+          side={DoubleSide}
+          depthTest={false}
+          depthWrite={false}
+        />
       </mesh>
       <primitive object={scene} />
     </group>

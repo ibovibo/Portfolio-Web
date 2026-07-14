@@ -6,6 +6,7 @@ import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Footer from './components/Footer'
+import CursorFollower from './components/CursorFollower'
 import { useSmoothScroll } from './hooks/useSmoothScroll'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <LanguageProvider>
       <BackgroundVideo />
       <Nav />
+      <CursorFollower />
       <main>
         <Hero />
         <About />

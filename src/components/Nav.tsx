@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import type { MouseEvent } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
+import { scrollToY } from '../hooks/useSmoothScroll'
 
 const SECTION_IDS = ['about', 'projects', 'skills', 'contact']
 const TRIGGER_RATIO = 0.55
@@ -43,6 +45,17 @@ export default function Nav() {
     }
   }, [])
 
+  const handleAboutClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    const panel = document.querySelector<HTMLElement>('#about > div')
+    if (!panel) return
+    e.preventDefault()
+    const rect = panel.getBoundingClientRect()
+    const panelCenterAbs = rect.top + window.scrollY + rect.height / 2
+    const targetY = panelCenterAbs - window.innerHeight / 2
+    scrollToY(targetY)
+    window.history.pushState(null, '', '#about')
+  }
+
   const linkClass = (id: string) =>
     `rounded-full transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${
       activeId === id ? 'text-accent font-semibold' : 'text-muted hover:text-ink'
@@ -51,7 +64,7 @@ export default function Nav() {
   return (
     <header className="fixed inset-x-0 top-6 z-50 flex items-center justify-center px-6">
       <nav className="hidden items-center gap-10 rounded-full bg-black/50 px-8 py-4 text-base shadow-lg shadow-black/40 backdrop-blur-xl sm:flex">
-        <a href="#about" className={linkClass('about')}>
+        <a href="#about" className={linkClass('about')} onClick={handleAboutClick}>
           {t.nav.about}
         </a>
         <a href="#projects" className={linkClass('projects')}>

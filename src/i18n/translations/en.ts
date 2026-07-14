@@ -42,7 +42,15 @@ export const en: Translation = {
       },
     ],
   },
+  contact: {
+    heading: 'Ready to connect?',
+    emailCta: 'Email Me',
+  },
   footer: {
-    builtBy: 'Built by İbrahim',
+    tagline: 'AI Engineering student.',
+    discover: 'Discover',
+    socials: 'Socials',
+    home: 'Home',
+    rights: 'All rights reserved.',
   },
 }

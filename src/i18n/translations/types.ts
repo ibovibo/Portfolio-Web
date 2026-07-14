@@ -35,7 +35,15 @@ export interface Translation {
       linkLabel: string
     }[]
   }
+  contact: {
+    heading: string
+    emailCta: string
+  }
   footer: {
-    builtBy: string
+    tagline: string
+    discover: string
+    socials: string
+    home: string
+    rights: string
   }
 }

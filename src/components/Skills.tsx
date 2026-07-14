@@ -22,8 +22,8 @@ const SKILL_DISC_COLORS: Record<string, string> = {
 const ROW_HEIGHT = 230
 const LEFT_X = 25
 const RIGHT_X = 75
-const LOOP_DURATION_MS = 45000
-const TRIGGER_LEAD = 25
+const LOOP_DURATION_MS = 35000
+const TRIGGER_LEAD = 15
 
 function segmentD(prev: { x: number; y: number }, p: { x: number; y: number }): string {
   const midY = (prev.y + p.y) / 2
@@ -57,6 +57,7 @@ export default function Skills() {
   const pathRef = useRef<SVGPathElement>(null)
   const segmentRefs = useRef<(SVGPathElement | null)[]>([])
   const carRef = useRef<HTMLDivElement>(null)
+  const facingRight = useRef(true)
   const [spinTriggers, setSpinTriggers] = useState<Record<number, number>>({})
 
   useEffect(() => {
@@ -87,6 +88,9 @@ export default function Skills() {
       ) {
         const idx = nextWaypoint
         setSpinTriggers((prev) => ({ ...prev, [idx]: (prev[idx] ?? 0) + 1 }))
+        if (idx > 0 && idx < n - 1) {
+          facingRight.current = !facingRight.current
+        }
         nextWaypoint++
       }
 
@@ -99,7 +103,8 @@ export default function Skills() {
       if (carRef.current) {
         carRef.current.style.left = `${pt.x}%`
         carRef.current.style.top = `${(pt.y / (n * 100)) * 100}%`
-        carRef.current.style.transform = `translate(-50%, -50%) rotate(${tilt}deg)`
+        const flip = facingRight.current ? 1 : -1
+        carRef.current.style.transform = `translate(-50%, -50%) translateY(-10px) rotate(${tilt}deg) scaleX(${flip})`
       }
 
       raf = requestAnimationFrame(tick)
@@ -166,7 +171,7 @@ export default function Skills() {
             aria-hidden="true"
           >
             <img
-              src="/assets/para.png"
+              src="/assets/sonic.gif"
               alt=""
               draggable={false}
               className="h-full w-full select-none rounded-full object-cover drop-shadow-lg"

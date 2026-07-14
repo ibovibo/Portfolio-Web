@@ -42,7 +42,15 @@ export const tr: Translation = {
       },
     ],
   },
+  contact: {
+    heading: 'Bağlantı kurmaya hazır mısın?',
+    emailCta: 'Bana Ulaş',
+  },
   footer: {
-    builtBy: 'İbrahim tarafından yapıldı',
+    tagline: 'Yapay Zeka Mühendisliği öğrencisi.',
+    discover: 'Keşfet',
+    socials: 'Sosyal',
+    home: 'Anasayfa',
+    rights: 'Tüm hakları saklıdır.',
   },
 }

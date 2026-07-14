@@ -3,7 +3,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 
 const SECTION_IDS = ['about', 'projects', 'skills', 'contact']
 const TRIGGER_RATIO = 0.55
-const SHOW_TRIGGER_DEBUG = true
+const SHOW_TRIGGER_DEBUG = false
 
 export default function Nav() {
   const { lang, t, toggleLang } = useLanguage()

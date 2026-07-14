@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useLanguage } from '../i18n/LanguageContext'
+import { fadeUpItem, staggerContainer } from '../lib/motionVariants'
 
 export default function Projects() {
   const { t } = useLanguage()
@@ -7,20 +8,24 @@ export default function Projects() {
   return (
     <section id="projects" className="mx-auto max-w-3xl scroll-mt-28 px-6 py-32 sm:py-48">
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-100px' }}
       >
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-accent">
+        <motion.h2
+          variants={fadeUpItem}
+          className="text-sm font-semibold uppercase tracking-widest text-accent"
+        >
           {t.projects.heading}
-        </h2>
+        </motion.h2>
 
         {t.projects.items.length > 0 ? (
           <div className="mt-6 flex flex-col gap-4">
             {t.projects.items.map((project) => (
-              <a
+              <motion.a
                 key={project.title}
+                variants={fadeUpItem}
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
@@ -35,13 +40,16 @@ export default function Projects() {
                   {project.linkLabel}
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </span>
-              </a>
+              </motion.a>
             ))}
           </div>
         ) : (
-          <div className="mt-6 rounded-2xl bg-black/50 p-8 text-center shadow-lg shadow-black/40 backdrop-blur-xl">
+          <motion.div
+            variants={fadeUpItem}
+            className="mt-6 rounded-2xl bg-black/50 p-8 text-center shadow-lg shadow-black/40 backdrop-blur-xl"
+          >
             <p className="text-sm text-muted">{t.projects.comingSoon}</p>
-          </div>
+          </motion.div>
         )}
       </motion.div>
     </section>

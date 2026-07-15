@@ -8,7 +8,7 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   const linkClass =
-    'text-muted transition-colors duration-300 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper rounded'
+    'text-muted transition-colors duration-500 ease-out hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper rounded'
 
   return (
     <motion.footer
@@ -26,10 +26,10 @@ export default function Footer() {
 
         <a
           href={`mailto:${EMAIL}`}
-          className="group mt-8 flex items-center gap-3 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-base font-medium text-paper transition-colors duration-300 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          className="group mt-8 flex items-center gap-3 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-base font-medium text-paper transition-colors duration-500 ease-out hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
         >
           {t.contact.emailCta}
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-paper text-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-accent">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-paper text-ink transition-colors duration-500 ease-out group-hover:bg-ink group-hover:text-accent">
             <svg
               viewBox="0 0 24 24"
               fill="none"

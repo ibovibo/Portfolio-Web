@@ -25,10 +25,10 @@ export default function Hero() {
             href="https://github.com/ibovibo"
             target="_blank"
             rel="noreferrer"
-            className="group flex items-center gap-4 rounded-full bg-ink py-2 pl-8 pr-2 text-lg font-medium text-paper transition-colors duration-300 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            className="group flex items-center gap-4 rounded-full bg-ink py-2 pl-8 pr-2 text-lg font-medium text-paper transition-colors duration-500 ease-out hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           >
             {t.hero.githubCta}
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-paper text-ink transition-colors duration-300 group-hover:bg-ink group-hover:text-accent">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-paper text-ink transition-colors duration-500 ease-out group-hover:bg-ink group-hover:text-accent">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -46,7 +46,7 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      <div className="absolute inset-x-0 bottom-8 z-10 flex flex-col items-center gap-2 text-xs text-muted">
+      <div className="pointer-events-none absolute inset-x-0 bottom-8 z-10 flex flex-col items-center gap-2 text-xs text-muted">
         <span>{t.hero.scrollHint}</span>
         <span className="h-8 w-px animate-pulse bg-line" />
       </div>

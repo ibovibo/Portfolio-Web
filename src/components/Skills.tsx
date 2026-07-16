@@ -137,7 +137,7 @@ export default function Skills() {
               ref={pathRef}
               d={pathD}
               fill="none"
-              stroke="#16a34a"
+              stroke="#06b6d4"
               strokeWidth={4}
               strokeLinecap="round"
               opacity={0.7}

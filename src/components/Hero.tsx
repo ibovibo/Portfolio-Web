@@ -1,8 +1,16 @@
 import { motion } from 'framer-motion'
 import { useLanguage } from '../i18n/LanguageContext'
 
+const LINE_SWEEP_DURATION = 2.5
+
 export default function Hero() {
   const { t } = useLanguage()
+
+  const nameChars = t.hero.name.split('')
+  const eyebrowChars = t.hero.eyebrow.split('')
+  const nameGap = LINE_SWEEP_DURATION / nameChars.length
+  const eyebrowGap = LINE_SWEEP_DURATION / eyebrowChars.length
+  const waveDuration = LINE_SWEEP_DURATION * 2
 
   return (
     <section
@@ -16,8 +24,31 @@ export default function Hero() {
         className="relative z-10 flex max-w-3xl flex-col items-start gap-5 sm:gap-6"
       >
         <h1 className="font-bold tracking-tighter text-ink">
-          <span className="block text-6xl leading-[0.95] sm:text-8xl">{t.hero.name}</span>
-          <span className="mt-3 block text-2xl leading-tight sm:text-4xl">{t.hero.eyebrow}</span>
+          <span className="block text-6xl leading-[0.95] sm:text-8xl">
+            {nameChars.map((char, i) => (
+              <span
+                key={i}
+                className="letter-wave"
+                style={{ animationDelay: `${i * nameGap}s`, animationDuration: `${waveDuration}s` }}
+              >
+                {char === ' ' ? ' ' : char}
+              </span>
+            ))}
+          </span>
+          <span className="mt-3 block text-2xl leading-tight sm:text-4xl">
+            {eyebrowChars.map((char, i) => (
+              <span
+                key={i}
+                className="letter-wave"
+                style={{
+                  animationDelay: `${LINE_SWEEP_DURATION + i * eyebrowGap}s`,
+                  animationDuration: `${waveDuration}s`,
+                }}
+              >
+                {char === ' ' ? ' ' : char}
+              </span>
+            ))}
+          </span>
         </h1>
 
         <div className="flex items-center gap-3">

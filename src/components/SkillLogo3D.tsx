@@ -15,7 +15,7 @@ const REDUCED_MOTION =
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-const DISC_GREEN = new Color('#16a34a')
+const DISC_ACCENT = new Color('#06b6d4')
 const SPIN_DURATION = 1.4
 
 function Model({
@@ -87,7 +87,7 @@ function Model({
     ref.current.scale.setScalar(newScale)
 
     if (discMaterialRef.current) {
-      discMaterialRef.current.color.lerp(spinning ? DISC_GREEN : discBaseColor, delta * 8)
+      discMaterialRef.current.color.lerp(spinning ? DISC_ACCENT : discBaseColor, delta * 8)
     }
   })
 
